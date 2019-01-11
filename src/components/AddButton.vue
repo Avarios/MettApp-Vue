@@ -1,5 +1,13 @@
-<template >
-  <v-btn v-if="isAdmin" absolute dark fab bottom right color="pink">
+<template>
+  <v-btn
+    v-if="isAdmin"
+    absolute
+    dark
+    fab
+    bottom
+    right
+    color="pink"
+  >
     <v-icon>fas fa-plus-circle</v-icon>
   </v-btn>
 </template>

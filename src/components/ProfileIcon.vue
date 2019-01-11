@@ -1,9 +1,18 @@
 <template>
   <div>
-    <v-btn v-if="currentUser" flat icon>
+    {{user}}
+    <v-btn
+      v-if="user" 
+      flat 
+      icon
+    >
       <v-icon>fas fa-user</v-icon>
     </v-btn>
-    <v-btn v-if="!currentUser" flat icon>
+    <v-btn
+      v-if="!user" 
+      flat 
+      icon
+    >
       <v-icon>fas fa-sign-in-alt</v-icon>
     </v-btn>
   </div>
@@ -13,14 +22,8 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "ProfileIcon",
-  props: {
-    user: {
-      type: Object,
-      default: null
-    }
-  },
   computed: {
-    ...mapGetters(["currentUser"])
+    ...mapGetters(["user"])
   }
 };
 </script>

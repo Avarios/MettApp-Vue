@@ -25,7 +25,8 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    currentUser: state => {
+    user: state => {
+      state.user = currentUser;
       return state.user;
     },
     isAdmin:state => {
@@ -33,20 +34,29 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loginGoogle({ commit }) {
-      auth().signInWithPopup(new googleProvider()).then(() => {
-        commit('setAuthState', currentUser);
-      }, err => {
-        commit('setError', err);
-      })
-    },
-    loginGithub({ commit }) {
+    loginSocial({ commit }, provider) {
       commit('setLoading');
-      auth().signInWithPopup(new githubProvider()).then(() => {
-        commit('setAuthState', currentUser);
-      }, err => {
-        commit('setError', err);
-      })
+      switch(provider) {
+        case 'google': {
+          auth().signInWithPopup(new googleProvider()).then(() => {
+            commit('setAuthState', currentUser);
+          }, err => {
+            commit('setError', err);
+          });
+          break;
+        }
+        case 'github': {
+          auth().signInWithPopup(new githubProvider()).then(() => {
+            commit('setAuthState', currentUser);
+          }, err => {
+            commit('setError', err);
+          });
+          break;
+        }
+        default: {
+          commit('setError','no provider set !');
+        }
+      }
     },
     login({ commit }, username, password) {
       commit('setLoading');
@@ -55,6 +65,9 @@ export default new Vuex.Store({
       }, err => {
         commit('setError', err);
       })
-    }
+    },
+    autoSignIn ({commit}, payload) {
+      commit('setAuthState', payload);
+     }
   }
 })

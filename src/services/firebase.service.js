@@ -13,7 +13,6 @@ const config = {
 firebase.initializeApp(config);
 
 const db = firebase.firestore();
-const currentUser = auth.currentUser;
 const googleProvider = auth.GoogleAuthProvider;
 const githubProvider = auth.GithubAuthProvider;
 
@@ -34,7 +33,6 @@ export {
     auth,
     googleProvider,
     githubProvider,
-    currentUser,
     adminCollection,
     eventsCollection,
     tenantsCollection,

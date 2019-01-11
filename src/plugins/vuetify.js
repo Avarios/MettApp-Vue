@@ -13,7 +13,7 @@ Vue.use(Vuetify, {
     success: '#4CAF50',
     warning: '#FFC107'
   },
-  iconfont: 'fa',
+  iconfont: 'fa4',
   lang: {
     locales: { de },
     current: 'de'
