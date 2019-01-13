@@ -25,6 +25,10 @@ export default new Vuex.Store({
     setError(state, error) {
       state.error = error;
       state.isLoading = false;
+    },
+    logOut(state) {
+      state.user = null;
+      state.events = null;
     }
   },
   getters: {
@@ -78,6 +82,12 @@ export default new Vuex.Store({
     },
     autoSignIn({ commit }, payload) {
       commit('setAuthState', payload);
+    },
+    logOut({ commit }) {
+      auth().signOut().then(() => {
+        localStorage.removeItem('user');
+        commit('logOut');
+      })
     }
   }
 })

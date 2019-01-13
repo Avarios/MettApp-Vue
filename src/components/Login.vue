@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="user" persistent>
+  <v-dialog v-bind:value="show" persistent>
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     show() {
-      return !this.$store.getters.user
+      return !this.$store.getters.user;
     }
   }
 };
