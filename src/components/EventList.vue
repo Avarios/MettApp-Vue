@@ -19,7 +19,8 @@
             <div>Located two hours south of Sydney in the <br>Southern Highlands of New South Wales, ...</div>
           </div>
         </v-card-title>
-
+        <v-card-text>
+        </v-card-text>
         <v-card-actions>
           <v-btn
             flat
@@ -41,8 +42,11 @@
 
 <script>
   export default {
-    data: () => ({
-    })
+    computed: {
+    user() {
+      return this.$store.getters.user
+    }
+  }
   }
 </script>
 
