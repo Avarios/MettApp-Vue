@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-bind:value="show" persistent transition lazy full-width dark fullscreen hide-overlay> 
+  <v-dialog v-bind:value="show" persistent transition lazy full-width dark> 
     <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
@@ -23,7 +23,7 @@
             <v-card-actions>
               <v-btn color="primary">Login</v-btn>
               <v-btn icon v-on:click="loginSocial('google')">
-                <v-icon>fas fa-google</v-icon>
+                <v-icon>fa-google</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
