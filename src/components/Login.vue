@@ -33,16 +33,6 @@
               Log in
             </md-button>
           </div>
-
-          <div
-            v-if="loading"
-            class="loading-overlay"
-          >
-            <md-progress-spinner
-              md-mode="indeterminate"
-              :md-stroke="2"
-            />
-          </div>
         </div>
       </md-dialog-content>
       <md-divider />
@@ -81,7 +71,6 @@ export default {
   name: "Login",
   data: function() {
     return {
-      loading: false,
       login: {
         email: "",
         password: ""

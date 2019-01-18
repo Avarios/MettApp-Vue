@@ -1,10 +1,26 @@
 <template>
-  <md-avatar>
-    <img
-      :src="photo"
-      alt="Avatar"
+  <md-menu
+    md-size="medium"
+    md-align-trigger
+  >
+    <md-button
+      class="md-icon-button"
+      md-menu-trigger
     >
-  </md-avatar>
+      <md-avatar>
+        <img
+          :src="photo"
+          alt="Avatar"
+        >
+      </md-avatar>
+    </md-button>
+
+    <md-menu-content>
+      <md-menu-item @click="logOut">
+        <md-icon>logout</md-icon> Logout
+      </md-menu-item>
+    </md-menu-content>
+  </md-menu>
 </template>
 <script>
 

@@ -83,6 +83,9 @@ export default new Vuex.Store({
     autoSignIn({ commit }, payload) {
       commit('setAuthState', payload);
     },
+    setLoading({commit}) {
+      commit('setLoading');
+    },
     logOut({ commit }) {
       auth().signOut().then(() => {
         localStorage.removeItem('user');
