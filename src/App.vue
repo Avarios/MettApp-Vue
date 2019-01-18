@@ -1,13 +1,10 @@
 <template>
-  <v-app>
+  <div class="md-layout md-gutter md-alignment-center">
     <Toolbar />
-
-    <v-content>
-      <EventList />
-      <Login />
-      <add-button />
-    </v-content>
-  </v-app>
+    <EventList />
+    <Login />
+    <add-button />
+  </div>
 </template>
 
 <script>

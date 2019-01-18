@@ -1,10 +1,15 @@
 import '@babel/polyfill'
 import Vue from 'vue'
-import './plugins/vuetify'
 import App from './App.vue'
 import store from './store'
 import { auth } from './services/firebase.service';
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css'
+import VueMaterial from 'vue-material'
+
+
+Vue.use(VueMaterial);
 
 new Vue({
   store,
@@ -16,4 +21,4 @@ new Vue({
     })
   },
   render: h => h(App),
-}).$mount('#app')
+}).$mount('#app');

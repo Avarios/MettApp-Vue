@@ -1,26 +1,16 @@
 <template>
-  <v-btn
-    v-if="isAdmin"
-    absolute
-    dark
-    fab
-    bottom
-    right
-    color="pink"
-  >
-    <v-icon>fas fa-plus-circle</v-icon>
-  </v-btn>
+  <md-button class="md-fab md-primary md-fab-bottom-center">
+    <md-icon>home</md-icon>
+  </md-button>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
-    name:'AddButton',
-    computed: {
-        ...mapGetters([
-            'isAdmin'
-        ])
-    }
-}
+  name: "AddButton",
+  computed: {
+    ...mapGetters(["isAdmin"])
+  }
+};
 </script>
 
