@@ -8,9 +8,9 @@
       </div>
       <div class="md-toolbar-section-end">
         <md-button class="md-just-icon md-simple md-toolbar-toggle">
-          <span class="icon-bar"/>
-          <span class="icon-bar"/>
-          <span class="icon-bar"/>
+          <span class="icon-bar" />
+          <span class="icon-bar" />
+          <span class="icon-bar" />
         </md-button>
 
         <div class="md-collapse">

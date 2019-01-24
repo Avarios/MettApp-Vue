@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { auth, googleProvider, githubProvider } from './services/firebase.service';
+import moment from 'moment';
+import { auth, googleProvider, githubProvider, eventsCollection } from './services/firebase.service';
 
 Vue.use(Vuex);
 
@@ -9,7 +10,8 @@ export default new Vuex.Store({
     events: [],
     error: null,
     user: null,
-    isLoading: false
+    isLoading: false,
+    isAdmin:true
   },
   mutations: {
     setAuthState(state, payload) {
@@ -29,6 +31,10 @@ export default new Vuex.Store({
     logOut(state) {
       state.user = null;
       state.events = null;
+    },
+    setEventList(state, payload) {
+      state.isLoading = false;
+      state.events = payload;
     }
   },
   getters: {
@@ -44,7 +50,7 @@ export default new Vuex.Store({
       return null;
     },
     isAdmin: state => {
-      return true;
+      return state.isAdmin;
     }
   },
   actions: {
@@ -83,14 +89,27 @@ export default new Vuex.Store({
     autoSignIn({ commit }, payload) {
       commit('setAuthState', payload);
     },
-    setLoading({commit}) {
-      commit('setLoading');
-    },
     logOut({ commit }) {
       auth().signOut().then(() => {
         localStorage.removeItem('user');
         commit('logOut');
       })
+    },
+    loadEvents({ commit }) {
+      commit('setLoading');
+      eventsCollection.get().then(result => {
+        let items = result.docs.map(item => item.data()).map((item) => {
+          return {
+            attendees: item.attendees,
+            date: moment.unix(item.date.seconds).format('DD.MM.YYYY'),
+            name: item.name,
+            link: item.link,
+            allowPaypal:item.allowPaypal
+          }
+        });
+        commit('setEventList', items);
+      });
+
     }
   }
 })

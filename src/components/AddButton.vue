@@ -1,19 +1,24 @@
 <template>
-  <md-button class="md-fab md-primary md-fab-bottom-center" @click="setLoading">
+  <md-button
+    class="md-fab md-primary md-fab-bottom-center"
+    @click="setLoading"
+  >
     <md-icon>home</md-icon>
   </md-button>
 </template>
 <script>
-import { mapGetters,mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "AddButton",
   computed: {
+    user() {
+      return this.$store.getters.user;
+    },
+
     ...mapGetters(["isAdmin"])
   },
   methods: {
-    ...mapActions({
-      setLoading: 'setLoading' // map `this.add()` to `this.$store.dispatch('increment')`
-    })
+    
   }
 };
 </script>

@@ -16,7 +16,8 @@ new Vue({
   created() {
     auth().onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
-        store.dispatch('autoSignIn', firebaseUser)
+        store.dispatch('autoSignIn', firebaseUser);
+        store.dispatch('loadEvents');
       }
     })
   },
