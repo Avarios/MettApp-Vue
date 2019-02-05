@@ -35,6 +35,9 @@ export default new Vuex.Store({
     setEventList(state, payload) {
       state.isLoading = false;
       state.events = payload;
+    },
+    addEvent(state,payload) {
+
     }
   },
   getters: {
@@ -86,30 +89,34 @@ export default new Vuex.Store({
         commit('setError', err);
       })
     },
+    addEvent({commit}, payload) {
+      eventsCollection.add(payload);
+    },
     autoSignIn({ commit }, payload) {
       commit('setAuthState', payload);
+      
+      eventsCollection.onSnapshot(snap => {
+        var events = [];
+        snap.docs.forEach(result => {
+            var item = result.data();
+            var event = {
+              attendees: item.attendees,
+              date: moment.unix(item.date.seconds).format('DD.MM.YYYY'),
+              name: item.name,
+              link: item.link,
+              allowPaypal:item.allowPaypal
+            };
+            events.push(event);
+        })
+        console.log('commit ' + events.length + ' events')
+        commit('setEventList', events);
+      })
     },
     logOut({ commit }) {
       auth().signOut().then(() => {
         localStorage.removeItem('user');
         commit('logOut');
       })
-    },
-    loadEvents({ commit }) {
-      commit('setLoading');
-      eventsCollection.get().then(result => {
-        let items = result.docs.map(item => item.data()).map((item) => {
-          return {
-            attendees: item.attendees,
-            date: moment.unix(item.date.seconds).format('DD.MM.YYYY'),
-            name: item.name,
-            link: item.link,
-            allowPaypal:item.allowPaypal
-          }
-        });
-        commit('setEventList', items);
-      });
-
     }
   }
 })
