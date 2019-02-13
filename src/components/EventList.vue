@@ -1,31 +1,39 @@
 <template>
-  <div class="md-column">
-    <md-card
-      v-for="item in events"
+  <div>
+    <div
+      v-for="(item, index) in events"
       :key="item.id"
-      class="md-primary"
+      class="md-row card_margin"
     >
-    <br>
-      <md-card-header>
-        <md-card-header-text>
-          <div class="md-title">
-            {{ item.date }}
-          </div>
-          <div class="md-subhead">
-            {{ item.name }}
-          </div>
-        </md-card-header-text>
-      </md-card-header>
+      <md-card :class="getCardCss(index)">
+        <md-ripple>
+          <md-card-header>
+            <div class="md-title">
+              Event at {{ item.date }}
+            </div>
+            <div class="md-subhead">
+              Host: {{ item.name }}
+            </div>
+          </md-card-header>
 
-      <md-card-actions>
-        <md-button>
-          Home
-          <md-icon>home</md-icon>
-        </md-button>
-        <md-button>Action</md-button>
-      </md-card-actions>
-    </md-card>
-    <br>
+          <md-card-content>YOU ARE NOT SUBSCRIBED</md-card-content>
+
+          <md-card-actions>
+            <md-button
+              v-if="canBeDeleted(item)"
+              class="md-accent md-raised"
+              @click="deleteEvent(item.id)"
+            >
+              <md-icon>remove</md-icon>
+              Delete
+            </md-button>
+            <md-button>Subscribe</md-button>
+            <md-button>Unscribe</md-button>
+          </md-card-actions>
+        </md-ripple>
+      </md-card>
+      <md-divider />
+    </div>
   </div>
 </template>
 
@@ -35,6 +43,17 @@ export default {
   computed: {
     events() {
       return this.$store.state.events;
+    }
+  },
+  methods: {
+    getCardCss: function(index) {
+      return index % 2 === 0 ? "md-primary" : "";
+    },
+    deleteEvent: function(id) {
+        this.$store.dispatch('deleteEvent',id);
+    },
+    canBeDeleted: function (item) {
+      return this.$store.state.isAdmin && this.$store.state.user.uid === item.host.id;
     }
   }
 };

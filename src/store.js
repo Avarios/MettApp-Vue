@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import moment from 'moment';
-import { auth, googleProvider, githubProvider, eventsCollection } from './services/firebase.service';
+import { auth, googleProvider, githubProvider, eventsCollection, db } from './services/firebase.service';
 
 Vue.use(Vuex);
 
@@ -37,7 +37,16 @@ export default new Vuex.Store({
       state.events = payload;
     },
     addEvent(state,payload) {
-
+      let newEvent = {
+        ...payload,
+        host: db.doc(`/user/${state.user.uid}`)
+      }
+      eventsCollection.add(newEvent);
+    },
+    deleteEvent(state,payload) {
+      eventsCollection.doc(payload).delete().then(() => {
+        
+      });
     }
   },
   getters: {
@@ -47,7 +56,9 @@ export default new Vuex.Store({
           name: state.user.displayName,
           mail: state.user.email,
           photoUrl: state.user.photoURL,
-          id: state.user.uid
+          id: state.user.uid,
+          isAdmin: state.isAdmin,
+
         };
       }
       return null;
@@ -90,9 +101,12 @@ export default new Vuex.Store({
       })
     },
     addEvent({commit}, payload) {
-      eventsCollection.add(payload);
+      commit('addEvent', payload);
     },
-    autoSignIn({ commit }, payload) {
+    deleteEvent({commit}, payload) {
+      commit('deleteEvent',payload);
+    },
+    firebaseInit({ commit }, payload) {
       commit('setAuthState', payload);
       
       eventsCollection.onSnapshot(snap => {
@@ -100,15 +114,16 @@ export default new Vuex.Store({
         snap.docs.forEach(result => {
             var item = result.data();
             var event = {
+              id: result.id,
               attendees: item.attendees,
-              date: moment.unix(item.date.seconds).format('DD.MM.YYYY'),
-              name: item.name,
+              date: moment.unix(item.eventDate.seconds).format('DD.MM.YYYY'),
+              name: item.hoster,
               link: item.link,
-              allowPaypal:item.allowPaypal
+              allowPaypal:item.allowPaypal,
+              host: item.host
             };
             events.push(event);
         })
-        console.log('commit ' + events.length + ' events')
         commit('setEventList', events);
       })
     },

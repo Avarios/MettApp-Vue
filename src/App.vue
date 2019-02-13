@@ -1,14 +1,11 @@
 <template>
   <div>
     <div
-      class="md-layout"
-      md-flex-xsmall="100"
-      md-flex-small="100"
-      md-flex-medium="100"
-      md-flex-large="100"
-      md-flex-xlarge="100"
+      class="md-layout md-gutter md-alignment-center"
     >
-      <Toolbar />
+      <div class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100">
+        <Toolbar />
+      </div>
     </div>
     <div
       class="md-layout md-alignment-center"
@@ -21,7 +18,7 @@
       <EventList />
       <LoadingSpinner />
       <Login />
-      <add-button />
+      <AddButton />
     </div>
   </div>
 </template>
