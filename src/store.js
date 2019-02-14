@@ -11,7 +11,7 @@ export default new Vuex.Store({
     error: null,
     user: null,
     isLoading: false,
-    isAdmin:true
+    isAdmin: true
   },
   mutations: {
     setAuthState(state, payload) {
@@ -36,16 +36,19 @@ export default new Vuex.Store({
       state.isLoading = false;
       state.events = payload;
     },
-    addEvent(state,payload) {
+    addEvent(state, payload) {
       let newEvent = {
         ...payload,
         host: db.doc(`/user/${state.user.uid}`)
       }
       eventsCollection.add(newEvent);
     },
-    deleteEvent(state,payload) {
+    deleteEvent(state, payload) {
+      state.isLoading = true;
       eventsCollection.doc(payload).delete().then(() => {
-        
+        state.isLoading = false;
+      }, () => {
+        state.isLoading =false;
       });
     }
   },
@@ -100,30 +103,17 @@ export default new Vuex.Store({
         commit('setError', err);
       })
     },
-    addEvent({commit}, payload) {
+    addEvent({ commit }, payload) {
       commit('addEvent', payload);
     },
-    deleteEvent({commit}, payload) {
-      commit('deleteEvent',payload);
+    deleteEvent({ commit }, payload) {
+      commit('deleteEvent', payload);
     },
     firebaseInit({ commit }, payload) {
       commit('setAuthState', payload);
-      
+
       eventsCollection.onSnapshot(snap => {
-        var events = [];
-        snap.docs.forEach(result => {
-            var item = result.data();
-            var event = {
-              id: result.id,
-              attendees: item.attendees,
-              date: moment.unix(item.eventDate.seconds).format('DD.MM.YYYY'),
-              name: item.hoster,
-              link: item.link,
-              allowPaypal:item.allowPaypal,
-              host: item.host
-            };
-            events.push(event);
-        })
+        let events = mapEventData(snap.docs);
         commit('setEventList', events);
       })
     },
@@ -135,3 +125,19 @@ export default new Vuex.Store({
     }
   }
 })
+
+const mapEventData = (docs) => {
+  return docs.map(result => {
+    var item = result.data();
+    var event = {
+      id: result.id,
+      attendees: item.attendees,
+      date: moment.unix(item.eventDate.seconds).format('DD.MM.YYYY'),
+      name: item.hoster,
+      link: item.link,
+      allowPaypal: item.allowPaypal,
+      host: item.host
+    };
+    return event;
+  })
+}
