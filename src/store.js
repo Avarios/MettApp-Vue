@@ -11,7 +11,8 @@ export default new Vuex.Store({
     error: null,
     user: null,
     isLoading: false,
-    isAdmin: true
+    isAdmin: true,
+    tenants:[]
   },
   mutations: {
     setAuthState(state, payload) {
@@ -68,6 +69,9 @@ export default new Vuex.Store({
     },
     isAdmin: state => {
       return state.isAdmin;
+    },
+    tentans: state => {
+      return state.tentants;
     }
   },
   actions: {

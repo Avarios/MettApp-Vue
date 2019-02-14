@@ -23,7 +23,6 @@ const settings = {
 db.settings(settings);
 
 // firebase collections
-const adminCollection = db.collection('admin');
 const eventsCollection = db.collection('events');
 const tenantsCollection = db.collection('tenants');
 const userCollection = db.collection('user');
@@ -33,7 +32,6 @@ export {
     auth,
     googleProvider,
     githubProvider,
-    adminCollection,
     eventsCollection,
     tenantsCollection,
     userCollection

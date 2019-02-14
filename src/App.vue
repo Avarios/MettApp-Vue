@@ -18,6 +18,7 @@
       <EventList />
       <LoadingSpinner />
       <Login />
+      <Tenant />
       <AddButton />
     </div>
   </div>
@@ -29,6 +30,7 @@ import Toolbar from "./components/Toolbar";
 import AddButton from "./components/AddButton";
 import Login from "./components/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
+import Tenant from "./components/TenantComponent";
 
 export default {
   name: "App",
@@ -37,7 +39,8 @@ export default {
     Toolbar,
     AddButton,
     Login,
-    LoadingSpinner
-  }
+    LoadingSpinner,
+    Tenant
+  },
 };
 </script>
