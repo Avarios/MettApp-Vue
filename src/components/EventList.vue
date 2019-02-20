@@ -53,7 +53,7 @@ export default {
         this.$store.dispatch('deleteEvent',id);
     },
     canBeDeleted: function (item) {
-      return this.$store.state.isAdmin && this.$store.state.user.uid === item.host.id;
+      return this.$store.state.isAdmin && this.$store.getters.user.id === item.host.id;
     }
   }
 };

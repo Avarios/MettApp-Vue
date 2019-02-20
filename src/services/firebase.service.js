@@ -22,17 +22,10 @@ const settings = {
 };
 db.settings(settings);
 
-// firebase collections
-const eventsCollection = db.collection('events');
-const tenantsCollection = db.collection('tenants');
-const userCollection = db.collection('user');
 
 export {
     db,
     auth,
     googleProvider,
-    githubProvider,
-    eventsCollection,
-    tenantsCollection,
-    userCollection
+    githubProvider
 };

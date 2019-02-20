@@ -1,6 +1,6 @@
 <template>
   <div>
-    <md-dialog :md-active.sync="show">
+    <md-dialog :md-active="show">
       <md-dialog-title>Mett App Login</md-dialog-title>
       <md-dialog-content>
         <div class="centered-container">

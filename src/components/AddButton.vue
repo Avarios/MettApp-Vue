@@ -1,5 +1,5 @@
 <template>
-  <md-button
+  <md-button v-if="isAdmin"
     class="md-fab md-primary md-fab-bottom-right"
     @click="showDialog = true"
   >
@@ -76,7 +76,9 @@ export default {
       let newEvent = {
         eventDate: this.selectedDate,
         allowPaypal: this.allowPaypal,
-        hoster: this.user.name
+        hoster: this.user.name,
+        id:this.user.id,
+        tenant: this.$store.getters.user.tenant
       };
       this.$store.dispatch('addEvent',newEvent).then(() => {
         this.isSuccess = true;
