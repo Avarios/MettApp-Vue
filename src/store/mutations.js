@@ -1,3 +1,5 @@
+import { db } from '../services/firebase.service';
+
 const mutations = {
     setAuthState(state, payload) {
       if (payload) {
@@ -5,16 +7,21 @@ const mutations = {
           name: payload.displayName,
           mail: payload.email,
           photoUrl: payload.photoURL,
-          id: payload.uid,
           isAdmin: state.isAdmin,
-          tenant: payload.tenant
+          tenant: payload.tenant,
         };
+        if(state.isAdmin) {
+          state.user.paypalLink = payload.paypalLink
+        } 
         state.isLoading = false;
       }
 
     },
     setUserData(state, payload) {
-      state.user.tentant = payload.tenant;
+      state.user.tenant = payload.tenant;
+      if(payload.paypalLink) {
+        state.user.paypalLink = payload.paypalLink;
+      }
       state.showTenantDialog = false;
     },
     setAdmin(state) {
@@ -42,10 +49,10 @@ const mutations = {
       state.tenants = payload;
     },
     addEvent(state, payload) {
-      let newEvent = {
-        ...payload,
-        host: db.doc(`/user/${state.user.uid}`)
-      }
+
+    },
+    deleteError(state){
+      state.error = undefined;
     },
     deleteEvent(state, payload) {
       state.isLoading = true;

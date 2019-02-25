@@ -20,20 +20,25 @@
 <script>
 export default {
   name: "TenantComponent",
-  data: {
-    selectedTenant:undefined
+  data: function() {
+    return {
+      selectedTenant: undefined
+    };
   },
   computed: {
     tenants() {
       return this.$store.state.tenants;
     },
     showDialog() {
-      return this.$store.state.showTenantDialog
+      return this.$store.state.showTenantDialog;
     }
   },
   methods: {
     saveData() {
-      this.$store.dispatch('setUserData' , {uid: this.$store.getters.user.id, tenant: this.selectedTenant});
+      this.$store.dispatch("setUserData", {
+        mail: this.$store.getters.user.mail,
+        tenant: this.selectedTenant
+      });
     }
   }
 };

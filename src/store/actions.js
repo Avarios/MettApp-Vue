@@ -39,15 +39,16 @@ const actions = {
       
     },
     setUserData({commit}, payload) {
-      db.collection('user').doc(payload.uid).get().then(result => {
+      db.collection('user').doc(payload.mail).get().then(result => {
         if(result.exists){
-          db.collection('user').doc(payload.uid).update({
-            tenant: payload.tenant
+          db.collection('user').doc(payload.mail).update({
+            tenant: payload.tenant,
+            paypalLink: payload.paypalLink
           }).then(res => {
             commit('setUserData', payload);
           })
         } else {
-          db.collection('user').doc(payload.uid).set({tenant: payload.tenant}).then(res => {
+          db.collection('user').doc(payload.mail).set({tenant: payload.tenant}).then(res => {
             commit('setUserData', payload);
           })
         }
@@ -59,10 +60,10 @@ const actions = {
       
     },
     addEvent({ commit }, payload) {
-      const { id,tenant,...eventData } = payload;
+      const { mail,tenant,...eventData } = payload;
       let newEvent = {
         ...eventData,
-        host: db.collection('user').doc(id)
+        host: db.collection('user').doc(mail)
       };
       db.collection('events').doc(tenant).collection('events').add(newEvent).then(result => {
         commit('addEvent', payload);
@@ -72,7 +73,7 @@ const actions = {
       commit('deleteEvent', payload);
     },
     firebaseInit({ commit }, payload) {
-      
+      let mail = payload.email;
       db.collection('tenants').get().then(results => {
         let tenants = results.docs.map(item => {
           return {"key": item.id , "value":item.data().name}
@@ -81,7 +82,8 @@ const actions = {
       }, err => {
         console.error(err);
       });
-      db.collection('user').doc(payload.uid).get().then(result => {
+     
+      db.collection('user').doc(mail).get().then(result => {
         let user = {...payload};
         if(result.exists) {
           if(result.data().isAdmin){
@@ -89,6 +91,9 @@ const actions = {
           }
           if(result.data().tenant) {
             user.tenant = result.data().tenant;
+          }
+          if(result.data().paypalLink) {
+            user.paypalLink =result.data().paypalLink;
           }
         }
         if (!result.exists || !result.data().tenant) {

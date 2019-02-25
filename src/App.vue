@@ -4,7 +4,7 @@
       class="md-layout md-gutter md-alignment-center"
     >
       <div class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100">
-        <Toolbar />
+        <Toolbar :onSettingsClicked="showSettingsDialog"/>
       </div>
     </div>
     <div
@@ -20,6 +20,8 @@
       <Login />
       <Tenant />
       <AddButton />
+      <ErrorSnack />
+      <SettingsModal :show="showSettings" :onClose="closeSettingsDialog"/>
     </div>
   </div>
 </template>
@@ -31,6 +33,8 @@ import AddButton from "./components/AddButton";
 import Login from "./components/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
 import Tenant from "./components/TenantComponent";
+import ErrorSnack from "./components/ErrorToast";
+import SettingsModal from "./components/SettingsModal";
 
 export default {
   name: "App",
@@ -40,7 +44,20 @@ export default {
     AddButton,
     Login,
     LoadingSpinner,
-    Tenant
+    Tenant,
+    ErrorSnack,
+    SettingsModal
   },
+  data: ()=> ({
+    showSettings: false
+  }),
+  methods: {
+    showSettingsDialog:function() {
+      this.showSettings = true;
+    },
+    closeSettingsDialog: function() {
+      this.showSettings = false;
+    }
+  }
 };
 </script>

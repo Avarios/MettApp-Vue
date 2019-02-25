@@ -77,7 +77,7 @@ export default {
         eventDate: this.selectedDate,
         allowPaypal: this.allowPaypal,
         hoster: this.user.name,
-        id:this.user.id,
+        mail:this.user.mail,
         tenant: this.$store.getters.user.tenant
       };
       this.$store.dispatch('addEvent',newEvent).then(() => {
