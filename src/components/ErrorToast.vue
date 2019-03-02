@@ -1,17 +1,17 @@
 <template>
   <md-snackbar
-      md-position="center"
-      :md-active="error"
-      md-persistent
+    md-position="center"
+    :md-active="error"
+    md-persistent
+  >
+    <span>An error occured: {{ errorMessage }}</span>
+    <md-button
+      class="md-primary"
+      @click="closeError"
     >
-      <span>An error occured: {{ errorMessage }}</span>
-      <md-button
-        class="md-primary"
-        @click="closeError"
-      >
-        <md-icon>close</md-icon>
-      </md-button>
-    </md-snackbar>
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-snackbar>
 </template>
 <script>
 export default {
@@ -19,11 +19,6 @@ export default {
   data: () => ({
       showSnackbar: false
   }),
-  methods: {
-      closeError: function() {
-          this.$store.commit('deleteError');
-      }
-  },
   computed: {
     error() {
       return !!this.$store.getters.error;
@@ -31,6 +26,11 @@ export default {
     errorMessage() {
       return this.$store.getters.error;
     }
+  },
+  methods: {
+      closeError: function() {
+          this.$store.commit('deleteError');
+      }
   }
 };
 </script>

@@ -4,7 +4,7 @@
       class="md-layout md-gutter md-alignment-center"
     >
       <div class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100">
-        <Toolbar :onSettingsClicked="showSettingsDialog"/>
+        <Toolbar :on-settings-clicked="showSettingsDialog" />
       </div>
     </div>
     <div
@@ -21,7 +21,10 @@
       <Tenant />
       <AddButton />
       <ErrorSnack />
-      <SettingsModal :show="showSettings" :onClose="closeSettingsDialog"/>
+      <SettingsModal
+        :show="showSettings"
+        :on-close="closeSettingsDialog"
+      />
     </div>
   </div>
 </template>

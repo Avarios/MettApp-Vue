@@ -1,5 +1,3 @@
-import { db } from '../services/firebase.service';
-
 const mutations = {
     setAuthState(state, payload) {
       if (payload) {
@@ -48,13 +46,13 @@ const mutations = {
     setTenantList(state,payload) {
       state.tenants = payload;
     },
-    addEvent(state, payload) {
+    addEvent() {
 
     },
     deleteError(state){
       state.error = undefined;
     },
-    deleteEvent(state, payload) {
+    deleteEvent(state) {
       state.isLoading = true;
     }
   }

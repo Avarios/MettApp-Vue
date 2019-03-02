@@ -5,14 +5,29 @@
       <md-dialog-content>
         <div class="md-layout-item">
           <md-field>
-            <md-select name="font" id="font" v-model="selectedTenant">
-              <md-option v-for="item in tenants" :value="item.key" :key="item.key">{{ item.value}}</md-option>
+            <md-select
+              id="font"
+              v-model="selectedTenant"
+              name="font"
+            >
+              <md-option
+                v-for="item in tenants"
+                :key="item.key"
+                :value="item.key"
+              >
+                {{ item.value }}
+              </md-option>
             </md-select>
           </md-field>
         </div>
       </md-dialog-content>
       <md-dialog-actions>
-        <md-button class="md-accent" @click="saveData">Save</md-button>
+        <md-button
+          class="md-accent"
+          @click="saveData"
+        >
+          Save
+        </md-button>
       </md-dialog-actions>
     </md-dialog>
   </div>

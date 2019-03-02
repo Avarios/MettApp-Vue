@@ -35,8 +35,9 @@ const actions = {
         commit('setError', err);
       })
     },
-    subscribe({commit}, payload) {
-      
+    subscribe(payload) {
+      let { id } = payload;
+      db.collection('events').doc(payload.tenant).collection('events').doc(id).collection('subscriber').add(payload);
     },
     setUserData({commit}, payload) {
       db.collection('user').doc(payload.mail).get().then(result => {
@@ -44,7 +45,7 @@ const actions = {
           db.collection('user').doc(payload.mail).update({
             tenant: payload.tenant,
             paypalLink: payload.paypalLink
-          }).then(res => {
+          }).then(() => {
             commit('setUserData', payload);
           })
         } else {
@@ -54,7 +55,7 @@ const actions = {
           if(payload.paypalLink) {
             record.paypalLink = payload.paypalLink;
           }
-          db.collection('user').doc(payload.mail).set(record).then(res => {
+          db.collection('user').doc(payload.mail).set(record).then(() => {
             commit('setUserData', payload);
           })
         }
@@ -71,7 +72,7 @@ const actions = {
         ...eventData,
         host: db.collection('user').doc(mail)
       };
-      db.collection('events').doc(tenant).collection('events').add(newEvent).then(result => {
+      db.collection('events').doc(tenant).collection('events').add(newEvent).then(() => {
         commit('addEvent', payload);
       });  
     },
@@ -85,8 +86,8 @@ const actions = {
           return {"key": item.id , "value":item.data().name}
         });
         commit('setTenantList',tenants);
-      }, err => {
-        console.error(err);
+      }, () => {
+        //TODO: ERROR !
       });
      
       db.collection('user').doc(mail).get().then(result => {
@@ -112,8 +113,8 @@ const actions = {
           });
         }
         commit('setAuthState', user)
-      }, err => {
-        console.error(err);
+      }, () => {
+        //TODO: ERROR
       });
       
     },

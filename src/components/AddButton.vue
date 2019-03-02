@@ -1,5 +1,6 @@
 <template>
-  <md-button v-if="isAdmin"
+  <md-button
+    v-if="isAdmin"
     class="md-fab md-primary md-fab-bottom-right"
     @click="showDialog = true"
   >

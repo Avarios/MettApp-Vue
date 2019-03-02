@@ -2,14 +2,25 @@
   <md-toolbar class="md-primary">
     <div class="md-toolbar-row">
       <div class="md-toolbar-section-start">
-        <h3 class="md-title">Mett App</h3>
+        <h3 class="md-title">
+          Mett App
+        </h3>
       </div>
       <div class="md-toolbar-section-end">
         <div class="md-collapse">
-          <md-menu md-size="medium" md-align-trigger>
-            <md-button class="md-icon-button" md-menu-trigger>
+          <md-menu
+            md-size="medium"
+            md-align-trigger
+          >
+            <md-button
+              class="md-icon-button"
+              md-menu-trigger
+            >
               <md-avatar>
-                <img :src="photo" alt="Avatar">
+                <img
+                  :src="photo"
+                  alt="Avatar"
+                >
               </md-avatar>
             </md-button>
 
@@ -31,7 +42,10 @@
 export default {
   name: "Toolbar",
   props:{
-    onSettingsClicked: Function
+    onSettingsClicked: {
+      type: Function,
+      default: null
+    }
   },
   computed: {
     user() {
