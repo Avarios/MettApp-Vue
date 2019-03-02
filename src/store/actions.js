@@ -48,7 +48,13 @@ const actions = {
             commit('setUserData', payload);
           })
         } else {
-          db.collection('user').doc(payload.mail).set({tenant: payload.tenant}).then(res => {
+          let record = {
+            tenant: payload.tenant
+          }
+          if(payload.paypalLink) {
+            record.paypalLink = payload.paypalLink;
+          }
+          db.collection('user').doc(payload.mail).set(record).then(res => {
             commit('setUserData', payload);
           })
         }
