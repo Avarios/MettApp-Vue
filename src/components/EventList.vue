@@ -27,8 +27,8 @@
               <md-icon>remove</md-icon>
               Delete
             </md-button>
-            <md-button>Subscribe</md-button>
-            <md-button>Unscribe</md-button>
+            <md-button v-if="!isSubscribed(item)">Subscribe</md-button>
+            <md-button v-if="isSubscribed(item)">Unscribe</md-button>
           </md-card-actions>
         </md-ripple>
       </md-card>
