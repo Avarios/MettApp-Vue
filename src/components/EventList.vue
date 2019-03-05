@@ -1,50 +1,75 @@
 <template>
   <div>
-    <div v-for="(item, index) in events" :key="item.id" class="md-row card_margin">
-      <md-card :class="getCardCss(index)" md-medium>
+    <div
+      v-for="(item, index) in events"
+      :key="item.id"
+      class="md-row card_margin"
+    >
+      <md-card
+        :class="getCardCss(index)"
+        md-medium
+      >
         <md-ripple>
           <md-card-header>
-            <div class="md-title">Event at {{ item.date }}</div>
-            <div class="md-subhead">Host: {{ item.name }}</div>
+            <div class="md-title">
+              Event at {{ item.date }} <md-icon
+                v-if="canBeDeleted(item)"
+                class="md-accent"
+              >
+                info
+              </md-icon>
+            </div>
+            
+            <div class="md-subhead">
+              Host: {{ item.name }}
+            </div>
           </md-card-header>
 
           <md-card-content>
             <div v-if="isSubscribed(item)">
               You are in with {{ getBuns(item) }} buns <br>
-            mhhh this will be a good day
+              mhhh this will be a good day
             </div>
-            <div v-if="!isSubscribed(item)"> Oops now fast to get some buns ! YUMMY ! </div>
+            <div v-if="!isSubscribed(item)">
+              Oops now fast to get some buns ! YUMMY !
+            </div>
           </md-card-content>
 
           <md-card-actions>
             <md-button
               v-if="canBeDeleted(item)"
               class="md-accent md-raised"
-              @click="deleteEvent(item.id)"
+              @click="deleteEvent(item)"
             >
               <md-icon>remove</md-icon>Delete
             </md-button>
-            <md-button v-if="!isSubscribed(item)" @click="openSubscribe(item)">
+            <md-button
+              v-if="!isSubscribed(item)"
+              @click="openSubscribe(item)"
+            >
               <md-icon>check_circle</md-icon>Subscribe
             </md-button>
-            <md-button class="md-accent" v-if="isSubscribed(item)" @click="unscribe(item)">
+            <md-button
+              v-if="isSubscribed(item)"
+              class="md-accent"
+              @click="unscribe(item)"
+            >
               <md-icon>highlight_off</md-icon>Unscribe
             </md-button>
           </md-card-actions>
         </md-ripple>
       </md-card>
-      <md-divider/>
+      <md-divider />
     </div>
     <SubscribeComponent
-      :showDialog="selectedEvent !== undefined"
+      :show-dialog="selectedEvent !== undefined"
       :event="selectedEvent"
-      :onCancel="closeSubscribe"
+      :on-cancel="closeSubscribe"
     />
   </div>
 </template>
 
 <script>
-import { find } from "lodash-es";
 import SubscribeComponent from "./SubscribeComponent";
 
 export default {
@@ -65,8 +90,8 @@ export default {
     getCardCss: function(index) {
       return index % 2 === 0 ? "md-primary" : "";
     },
-    deleteEvent: function(id) {
-      this.$store.dispatch("deleteEvent", id);
+    deleteEvent: function(item) {
+      this.$store.dispatch("deleteEvent", {id: item.id, tenant: item.tenant});
     },
     canBeDeleted: function(item) {
       return (
@@ -104,7 +129,6 @@ export default {
       this.$store
         .dispatch("unscribe", {
           id: item.id,
-          subs: item.subscriber,
           name: subscribeData.name,
           userId: subscribeData.uid,
           tenant: item.tenant

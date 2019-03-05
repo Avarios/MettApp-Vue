@@ -36,6 +36,16 @@ const actions = {
       commit('setLoading', false);
     })
   },
+  // eslint-disable-next-line no-unused-vars
+  register({commit}, payload) {
+    commit('setLoading', true);
+    auth().createUserWithEmailAndPassword(payload.email,payload.password).then(() => {
+
+    }).catch(err => {
+      commit('setLoading', false);
+      commit('setError', err);
+    })
+  },
   setUserData({ commit }, payload) {
     db.collection('user').doc(payload.mail).get().then(result => {
       if (result.exists) {
@@ -56,6 +66,9 @@ const actions = {
         if (payload.bunPrice) {
           record.bunPrice = payload.bunPrice;
         }
+        if(!payload.name) {
+          record.name = payload.mail;
+        }
         db.collection('user').doc(payload.mail).set(record).then(() => {
           commit('setUserData', payload);
         })
@@ -67,6 +80,7 @@ const actions = {
     });
 
   },
+  // eslint-disable-next-line no-unused-vars
   subscribe({ commit }, payload) {
     let { id, value, name, userId, tenant } = payload;
     db.collection('events').doc(tenant).collection('events').doc(id).update("subscriber", FieldValue.arrayUnion(
@@ -76,14 +90,17 @@ const actions = {
         name: name
       }
     ));
-    commit('subscribed');
   },
+  // eslint-disable-next-line no-unused-vars
   unscribe({ commit }, payload) {
-    let { id, userId, subs, tenant } = payload;
-    db.collection('events').doc(tenant).collection('events').doc(id).update({
-      subscriber: subs.filter(sub => sub.uid !== userId)
+    let { id, userId, tenant } = payload;
+    db.collection('events').doc(tenant).collection('events').doc(id).get().then(result => {
+      let { subscriber } = result.data();
+      db.collection('events').doc(tenant).collection('events').doc(id).update({
+        subscriber: subscriber.filter(sub => sub.uid !== userId)
+      })
     })
-    commit('unscribed');
+    
   },
   addEvent({ commit }, payload) {
     const { mail, tenant, bunPrice, ...eventData } = payload;
@@ -97,8 +114,10 @@ const actions = {
     });
 
   },
+  // eslint-disable-next-line no-unused-vars
   deleteEvent({ commit }, payload) {
-    commit('deleteEvent', payload);
+    let { id, tenant } = payload;
+    db.collection('events').doc(tenant).collection('events').doc(id).delete();
   },
   firebaseInit({ commit }, payload) {
     let mail = payload.email;
@@ -131,8 +150,9 @@ const actions = {
       if (!result.exists || !result.data().tenant) {
         commit('setShowTenantDialog');
       }
-      const { tenant } = result.data();
-      if (result.exists && tenant) {
+
+      if (result.exists && result.data().tenant) {
+        let { tenant } = result.data();
         db.collection('events').doc(tenant).collection('events').onSnapshot(snap => {
           let items = mapEventData(snap.docs, tenant);
           commit('setEventList', items);

@@ -4,7 +4,7 @@
       <div
         class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100"
       >
-        <Toolbar :on-settings-clicked="showSettingsDialog"/>
+        <Toolbar :on-settings-clicked="showSettingsDialog" />
       </div>
     </div>
     <div
@@ -15,13 +15,16 @@
       md-flex-large="70"
       md-flex-xlarge="70"
     >
-      <EventList/>
-      <LoadingSpinner/>
-      <Login/>
-      <AddButton/>
-      <ErrorSnack/>
+      <EventList />
+      <LoadingSpinner />
+      <Login />
+      <AddButton />
+      <ErrorSnack />
 
-      <SettingsModal :show="showSettings" :on-close="closeSettingsDialog"/>
+      <SettingsModal
+        :show="showSettings"
+        :on-close="closeSettingsDialog"
+      />
     </div>
   </div>
 </template>

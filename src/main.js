@@ -5,7 +5,7 @@ import store from './store'
 import { auth } from './services/firebase.service';
 Vue.config.productionTip = false;
 import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
+import 'vue-material/dist/theme/black-green-light.css'
 import VueMaterial from 'vue-material'
 
 

@@ -1,4 +1,5 @@
-import firebase, {auth} from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
 import 'firebase/firestore';
 
 const config = {
@@ -13,9 +14,10 @@ const config = {
 firebase.initializeApp(config);
 
 const db = firebase.firestore();
-const googleProvider = auth.GoogleAuthProvider;
-const githubProvider = auth.GithubAuthProvider;
+const googleProvider = firebase.auth.GoogleAuthProvider;
+const githubProvider = firebase.auth.GithubAuthProvider;
 const FieldValue = firebase.firestore.FieldValue;
+const auth = firebase.auth;
 // date issue fix according to firebase
 const settings = {
     timestampsInSnapshots: true

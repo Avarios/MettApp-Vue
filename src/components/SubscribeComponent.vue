@@ -3,19 +3,43 @@
     <md-dialog :md-active="showDialog">
       <md-dialog-title>How Much Buns do you need ?</md-dialog-title>
       <md-dialog-content>
-        <md-divider/>
+        <md-divider />
         <div class="md-layout-item">
           <md-field>
-            <md-select id="font" v-model="value" name="font">
-              <md-option v-for="n in 10" :key="n" :value="n">{{ n }}</md-option>
+            <md-select
+              id="font"
+              v-model="value"
+              name="font"
+            >
+              <md-option
+                v-for="n in 10"
+                :key="n"
+                :value="n"
+              >
+                {{ n }}
+              </md-option>
             </md-select>
           </md-field>
         </div>
       </md-dialog-content>
       <md-dialog-actions md-alignment="space-between">
-        <md-button class="md-accent" @click="onCancel">Cancel</md-button>
-        <md-button class="md-primary" @click="saveData(false)" :disabled="this.value <= 0">Ok</md-button>
-        <md-button @click="saveData(true)" :disabled="this.value <= 0 || !canbePaidByPaypal">
+        <md-button
+          class="md-accent"
+          @click="onCancel"
+        >
+          Cancel
+        </md-button>
+        <md-button
+          class="md-primary"
+          :disabled="value <= 0"
+          @click="saveData(false)"
+        >
+          Ok
+        </md-button>
+        <md-button
+          :disabled="value <= 0 || !canbePaidByPaypal"
+          @click="saveData(true)"
+        >
           <md-icon>payment</md-icon>PayPal
         </md-button>
       </md-dialog-actions>

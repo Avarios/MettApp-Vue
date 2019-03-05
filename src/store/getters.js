@@ -18,7 +18,7 @@ const getters = {
       return undefined;
     },
     isAdmin: state => {
-      return state.isAdmin;
+      return state.user ? state.user.isAdmin : false;
     },
     error: state => {
       return state.error ? state.error.message : undefined;
