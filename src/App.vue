@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div
-      class="md-layout md-gutter md-alignment-center"
-    >
-      <div class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100">
-        <Toolbar :on-settings-clicked="showSettingsDialog" />
+    <div class="md-layout md-gutter md-alignment-center">
+      <div
+        class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100"
+      >
+        <Toolbar :on-settings-clicked="showSettingsDialog"/>
       </div>
     </div>
     <div
@@ -15,16 +15,13 @@
       md-flex-large="70"
       md-flex-xlarge="70"
     >
-      <EventList />
-      <LoadingSpinner />
-      <Login />
-      <Tenant />
-      <AddButton />
-      <ErrorSnack />
-      <SettingsModal
-        :show="showSettings"
-        :on-close="closeSettingsDialog"
-      />
+      <EventList/>
+      <LoadingSpinner/>
+      <Login/>
+      <AddButton/>
+      <ErrorSnack/>
+
+      <SettingsModal :show="showSettings" :on-close="closeSettingsDialog"/>
     </div>
   </div>
 </template>
@@ -35,7 +32,6 @@ import Toolbar from "./components/Toolbar";
 import AddButton from "./components/AddButton";
 import Login from "./components/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
-import Tenant from "./components/TenantComponent";
 import ErrorSnack from "./components/ErrorToast";
 import SettingsModal from "./components/SettingsModal";
 
@@ -47,15 +43,21 @@ export default {
     AddButton,
     Login,
     LoadingSpinner,
-    Tenant,
     ErrorSnack,
     SettingsModal
   },
-  data: ()=> ({
-    showSettings: false
-  }),
+  data() {
+    return {
+      showSettings: false
+    };
+  },
+  mounted() {
+    this.$store.watch((state,getters) => state.showTenantDialog,(newVal,oldVal) => {
+        this.showSettings = newVal
+    })
+  },
   methods: {
-    showSettingsDialog:function() {
+    showSettingsDialog: function() {
       this.showSettings = true;
     },
     closeSettingsDialog: function() {

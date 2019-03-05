@@ -44,7 +44,7 @@ const actions = {
         if(result.exists){
           db.collection('user').doc(payload.mail).update({
             tenant: payload.tenant,
-            paypalLink: payload.paypalLink
+            paypalLink: payload.paypalLink ? payload.paypalLink : ''
           }).then(() => {
             commit('setUserData', payload);
           })
