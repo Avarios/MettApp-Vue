@@ -15,7 +15,7 @@ firebase.initializeApp(config);
 const db = firebase.firestore();
 const googleProvider = auth.GoogleAuthProvider;
 const githubProvider = auth.GithubAuthProvider;
-
+const FieldValue = firebase.firestore.FieldValue;
 // date issue fix according to firebase
 const settings = {
     timestampsInSnapshots: true
@@ -27,5 +27,6 @@ export {
     db,
     auth,
     googleProvider,
-    githubProvider
+    githubProvider,
+    FieldValue
 };

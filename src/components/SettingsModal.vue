@@ -17,6 +17,13 @@
             <span class="md-helper-text">Input your Paypallink here</span>
             <span class="md-error">There is an error</span>
           </md-field>
+          <!--TODO: Add Bun Price -->
+           <md-field :v-if="isAdmin">
+            <label>Bun Price</label>
+            <md-input v-model="bunPrice"/> €
+            <span class="md-helper-text">Input the BunPrice here</span>
+            <span class="md-error">There is an error</span>
+          </md-field>
         </div>
       </md-dialog-content>
       <md-dialog-actions>
@@ -47,7 +54,8 @@ export default {
         case 'setAuthState':
         case 'setUserData':
           this.selectedTenant = state.user.tenant;
-          this.paypalLink = state.user.paypalLink
+          this.paypalLink = state.user.paypalLink;
+          this.bunPrice = state.user.bunPrice;
         break;
       }
     })
@@ -55,7 +63,8 @@ export default {
   data: function() {
     return {
       selectedTenant: "",
-      paypalLink: ""
+      paypalLink: "",
+      bunPrice:undefined
     };
   },
   computed: {
@@ -77,6 +86,9 @@ export default {
       };
       if (this.paypalLink) {
         model.paypalLink = this.paypalLink;
+      }
+      if(this.bunPrice) {
+        model.bunPrice = this.bunPrice;
       }
       this.$store.dispatch("setUserData", model).then(() => {
         this.onClose();

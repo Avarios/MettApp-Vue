@@ -79,7 +79,9 @@ export default {
         allowPaypal: this.allowPaypal,
         hoster: this.user.name,
         mail:this.user.mail,
-        tenant: this.$store.getters.user.tenant
+        tenant: this.$store.getters.user.tenant,
+        paypal: this.$store.getters.paypalLink,
+        bunPrice: this.$store.getters.user.bunPrice
       };
       this.$store.dispatch('addEvent',newEvent).then(() => {
         this.isSuccess = true;

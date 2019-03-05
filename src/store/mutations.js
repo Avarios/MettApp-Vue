@@ -6,11 +6,13 @@ const mutations = {
           mail: payload.email,
           photoUrl: payload.photoURL,
           isAdmin: state.isAdmin,
-          tenant: payload.tenant,
+          tenant: payload.tenant
         };
         if(state.isAdmin) {
           state.user.paypalLink = payload.paypalLink
+          state.user.bunPrice = payload.bunPrice
         } 
+
         state.isLoading = false;
       }
 
@@ -19,6 +21,9 @@ const mutations = {
       state.user.tenant = payload.tenant;
       if(payload.paypalLink) {
         state.user.paypalLink = payload.paypalLink;
+      }
+      if(payload.bunprice) {
+        state.user.bunPrice = payload.bunPrice;
       }
       state.showTenantDialog = false;
     },
@@ -42,6 +47,9 @@ const mutations = {
     setEventList(state, payload) {
       state.isLoading = false;
       state.events = payload;
+    },
+    setSubscriber(state,payload) {
+      state.subscriber = payload;
     },
     setTenantList(state,payload) {
       state.tenants = payload;
