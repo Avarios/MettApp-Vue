@@ -16,6 +16,7 @@
       md-flex-xlarge="70"
     >
       <EventList />
+      <AdminPanel />
       <LoadingSpinner />
       <Login />
       <AddButton />
@@ -37,6 +38,7 @@ import Login from "./components/Login";
 import LoadingSpinner from "./components/LoadingSpinner";
 import ErrorSnack from "./components/ErrorToast";
 import SettingsModal from "./components/SettingsModal";
+import AdminPanel from "./components/AdminPanel";
 
 export default {
   name: "App",
@@ -47,7 +49,8 @@ export default {
     Login,
     LoadingSpinner,
     ErrorSnack,
-    SettingsModal
+    SettingsModal,
+    AdminPanel
   },
   data() {
     return {
