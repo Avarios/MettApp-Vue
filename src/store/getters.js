@@ -20,9 +20,6 @@ const getters = {
     isAdmin: state => {
       return state.isAdmin;
     },
-    tentans: state => {
-      return state.tentants;
-    },
     error: state => {
       return state.error ? state.error.message : undefined;
     }

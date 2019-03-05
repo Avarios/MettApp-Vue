@@ -25,8 +25,8 @@ const mutations = {
     setAdmin(state) {
       state.isAdmin = true;
     },
-    setLoading(state) {
-      state.isLoading = true;
+    setLoading(state, payload) {
+      state.isLoading = payload;
     },
     setError(state, error) {
       state.error = error;

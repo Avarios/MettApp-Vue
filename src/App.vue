@@ -52,7 +52,7 @@ export default {
     };
   },
   mounted() {
-    this.$store.watch((state,getters) => state.showTenantDialog,(newVal,oldVal) => {
+    this.$store.watch((state) => state.showTenantDialog,(newVal) => {
         this.showSettings = newVal
     })
   },

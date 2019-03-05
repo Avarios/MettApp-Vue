@@ -28,7 +28,7 @@
             </a>
             <md-button
               class="md-raised md-primary"
-              @click="loginSocial('google')"
+              @click="loginMail()"
             >
               Log in
             </md-button>
@@ -84,8 +84,11 @@ export default {
   },
   methods: {
       ...mapActions({
-          loginSocial: 'loginSocial' // map `this.add()` to `this.$store.dispatch('increment')`
-      })
+          loginSocial: 'loginSocial'
+      }),
+      loginMail: function() {
+        this.$store.dispatch('login', this.login);
+      }
   }
 };
 </script>

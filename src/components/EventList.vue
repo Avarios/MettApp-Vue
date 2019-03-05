@@ -38,7 +38,7 @@
 </template>
 
 <script>
-//import { mapActions } from 'vuex';
+import { find } from 'lodash-es';
 export default {
   computed: {
     events() {
@@ -54,6 +54,9 @@ export default {
     },
     canBeDeleted: function (item) {
       return this.$store.state.isAdmin && this.$store.getters.user.mail === item.host.id;
+    },
+    isSubscribed(item) {
+      return item.attendees ? find( (i) => { i.id === this.$store.state.user.uid } ) : false
     }
   }
 };

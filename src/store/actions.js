@@ -4,7 +4,7 @@ import moment from 'moment';
 
 const actions = {
     loginSocial({ commit }, provider) {
-      commit('setLoading');
+      commit('setLoading', true);
       switch (provider) {
         case 'google': {
           auth().signInWithPopup(new googleProvider()).then(() => {
@@ -27,12 +27,13 @@ const actions = {
         }
       }
     },
-    login({ commit }, username, password) {
-      commit('setLoading');
-      auth().signInWithEmailAndPassword(username, password).then(() => {
+    login({ commit }, payload) {
+      commit('setLoading', true);
+      auth().signInWithEmailAndPassword(payload.email, payload.password).then(() => {
         commit('setAuthState', auth().currentUser);
       }, err => {
         commit('setError', err);
+        commit('setLoading', false);
       })
     },
     subscribe(payload) {
