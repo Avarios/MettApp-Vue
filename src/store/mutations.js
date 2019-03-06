@@ -22,7 +22,7 @@ const mutations = {
       if(payload.paypalLink) {
         state.user.paypalLink = payload.paypalLink;
       }
-      if(payload.bunprice) {
+      if(payload.bunPrice) {
         state.user.bunPrice = payload.bunPrice;
       }
       state.showTenantDialog = false;

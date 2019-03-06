@@ -79,17 +79,18 @@ export default {
   },
   methods: {
     saveData(withPaypal) {
+      const { name,mail,bunPrice } = this.$store.getters.user;
       if (withPaypal) {
-        //TODO: read bun price from database
-        window.open(`${this.event.link}/${this.value * 1}`, "_blank");
+        window.open(`${this.event.link}/${this.value * bunPrice}`, "_blank");
       }
       this.$store.dispatch("subscribe", {
         id: this.event.id,
         value: this.value,
-        name: this.$store.getters.user.name,
-        userId: this.$store.getters.user.mail,
+        name: name,
+        userId: mail,
         tenant: this.event.tenant
       }).then(() => {
+        this.value = 0;
         this.onCancel();
       }).catch(err => {
          this.$store.commit('setError',err); 

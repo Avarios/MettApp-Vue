@@ -46,7 +46,7 @@ const actions = {
       commit('setError', err);
     })
   },
-  setUserData({ commit }, payload) {
+  setUserData({ commit, state }, payload) {
     db.collection('user').doc(payload.mail).get().then(result => {
       if (result.exists) {
         db.collection('user').doc(payload.mail).update({
@@ -54,6 +54,9 @@ const actions = {
           paypalLink: payload.paypalLink ? payload.paypalLink : '',
           bunPrice: payload.bunPrice ? payload.bunPrice : 1.0
         }).then(() => {
+          if(payload.tenant !== state.user.tenant) {
+            subscribeToSnapshot(commit,payload.tenant)
+          }
           commit('setUserData', payload);
         })
       } else {
@@ -73,10 +76,6 @@ const actions = {
           commit('setUserData', payload);
         })
       }
-      db.collection('events').doc(payload.tenant).collection('events').onSnapshot(snap => {
-        let items = mapEventData(snap.docs);
-        commit('setEventList', items);
-      });
     });
 
   },
@@ -153,11 +152,7 @@ const actions = {
 
       if (result.exists && result.data().tenant) {
         let { tenant } = result.data();
-        db.collection('events').doc(tenant).collection('events').onSnapshot(snap => {
-          let items = mapEventData(snap.docs, tenant);
-          commit('setEventList', items);
-        });
-
+        subscribeToSnapshot(commit,tenant)
       }
       commit('setAuthState', user)
     }, () => {
@@ -171,6 +166,13 @@ const actions = {
       commit('logOut');
     })
   }
+}
+
+const subscribeToSnapshot = (commit,tenant) => {
+  db.collection('events').doc(tenant).collection('events').onSnapshot(snap => {
+    let items = mapEventData(snap.docs, tenant);
+    commit('setEventList', items);
+  });
 }
 
 const mapEventData = (docs, tenant) => {

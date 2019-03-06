@@ -21,13 +21,14 @@
             </div>
             
             <div class="md-subhead">
-              Host: {{ item.name }}
+              Each bun cost {{ bunPrice }} €
             </div>
           </md-card-header>
 
           <md-card-content>
             <div v-if="isSubscribed(item)">
               You are in with {{ getBuns(item) }} buns <br>
+              Total Cost: {{ getBuns(item) * bunPrice }} € <br>
               mhhh this will be a good day
             </div>
             <div v-if="!isSubscribed(item)">
@@ -84,6 +85,9 @@ export default {
   computed: {
     events() {
       return this.$store.state.events;
+    },
+    bunPrice() {
+      return this.$store.getters.user.bunPrice;
     }
   },
   methods: {
