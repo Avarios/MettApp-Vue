@@ -52,7 +52,7 @@
         >
           Save
         </md-button>
-        <md-button @click="onClose">
+        <md-button @click="onClose()">
           Close
         </md-button>
       </md-dialog-actions>

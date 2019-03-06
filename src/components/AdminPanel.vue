@@ -1,56 +1,48 @@
 <template>
-  <div v-if="subscriber.length > 0 || hide">
-    <md-table>
-      <md-table-row>
-        <md-table-head md-numeric>ID</md-table-head>
-        <md-table-head>Name</md-table-head>
-        <md-table-head>Email</md-table-head>
-        <md-table-head>Gender</md-table-head>
-        <md-table-head>Job Title</md-table-head>
-      </md-table-row>
-
-      <md-table-row>
-        <md-table-cell md-numeric>1</md-table-cell>
-        <md-table-cell>Shawna Dubbin</md-table-cell>
-        <md-table-cell>sdubbin0@geocities.com</md-table-cell>
-        <md-table-cell>Male</md-table-cell>
-        <md-table-cell>Assistant Media Planner</md-table-cell>
-      </md-table-row>
-
-      <md-table-row>
-        <md-table-cell md-numeric>2</md-table-cell>
-        <md-table-cell>Odette Demageard</md-table-cell>
-        <md-table-cell>odemageard1@spotify.com</md-table-cell>
-        <md-table-cell>Female</md-table-cell>
-        <md-table-cell>Account Coordinator</md-table-cell>
-      </md-table-row>
-
-      <md-table-row>
-        <md-table-cell md-numeric>3</md-table-cell>
-        <md-table-cell>Vera Taleworth</md-table-cell>
-        <md-table-cell>vtaleworth2@google.ca</md-table-cell>
-        <md-table-cell>Male</md-table-cell>
-        <md-table-cell>Community Outreach Specialist</md-table-cell>
-      </md-table-row>
-    </md-table>
-  </div>
+  <md-dialog :md-active="subscriber.length > 0">
+    <md-dialog-title>Subscriber</md-dialog-title>
+    <md-dialog-content>
+      <md-table>
+        <md-table-row v-for="item in subscriber" :key="item.uid">
+          <md-table-cell md-label="ID">{{ item.uid }}</md-table-cell>
+          <md-table-cell md-label="Value">{{ item.buns }}</md-table-cell>
+        </md-table-row>
+        <md-table-row>
+          <md-table-cell md-label="ID">TOTAL</md-table-cell>
+          <md-table-cell md-label="Value">{{ getTotalBuns }}</md-table-cell>
+        </md-table-row>
+      </md-table>
+    </md-dialog-content>
+    <md-dialog-actions>
+      <md-button md-accent @click="onClose">
+        <md-icon>close</md-icon>Close
+      </md-button>
+    </md-dialog-actions>
+  </md-dialog>
 </template>
 
 <script>
-  export default {
-    name: 'TableBasic',
-    props: {
-        subscriber:{
-            type:Array,
-            default:function() {
-                return [];
-            }
-        }
+export default {
+  name: "AdminPanel",
+  props: {
+    subscriber: {
+      type: Array,
+      default: function() {
+        return [];
+      }
     },
-    data() {
-        return {
-            hide:false
-        }
+    onClose: {
+      type:Function,
+      default:undefined
+    }
+  },
+  computed: {
+    getTotalBuns() {
+      if (this.subscriber) {
+        return this.subscriber.reduce((total , item) => total + item.buns, 0);
+      }
+      return 0;
     }
   }
+};
 </script>

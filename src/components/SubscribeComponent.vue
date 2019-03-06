@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     canbePaidByPaypal() {
-      return this.event ? (this.event.link ? true : false) : false;
+      return this.event ? (this.event.link ? true : false) && this.event.allowPaypal : false;
     }
   },
   methods: {

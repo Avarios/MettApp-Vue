@@ -4,7 +4,7 @@
       <div
         class="md-layout-item md-xlarge-size-75 md-medium-size-75 md-small-size-100 md-xsmall-size-100"
       >
-        <Toolbar :on-settings-clicked="showSettingsDialog" />
+        <Toolbar :on-settings-clicked="showSettingsDialog"/>
       </div>
     </div>
     <div
@@ -15,17 +15,14 @@
       md-flex-large="70"
       md-flex-xlarge="70"
     >
-      <EventList />
-      <AdminPanel />
-      <LoadingSpinner />
-      <Login />
-      <AddButton />
-      <ErrorSnack />
+      <EventList :onSubscriberInfoClicked="(data) => showAdminPanel(data)"/>
+      <AdminPanel :subscriber="subscriber" :onClose="onAdminPanelClose"/>
+      <LoadingSpinner/>
+      <Login/>
+      <AddButton/>
+      <ErrorSnack/>
 
-      <SettingsModal
-        :show="showSettings"
-        :on-close="closeSettingsDialog"
-      />
+      <SettingsModal :show="showSettings" :on-close="closeSettingsDialog"/>
     </div>
   </div>
 </template>
@@ -54,20 +51,30 @@ export default {
   },
   data() {
     return {
-      showSettings: false
+      showSettings: false,
+      subscriber: undefined
     };
   },
   mounted() {
-    this.$store.watch((state) => state.showTenantDialog,(newVal) => {
-        this.showSettings = newVal
-    })
+    this.$store.watch(
+      state => state.showTenantDialog,
+      newVal => {
+        this.showSettings = newVal;
+      }
+    );
   },
   methods: {
+    onAdminPanelClose() {
+      this.subscriber = undefined;
+    },
     showSettingsDialog: function() {
       this.showSettings = true;
     },
     closeSettingsDialog: function() {
       this.showSettings = false;
+    },
+    showAdminPanel(data) {
+      this.subscriber = data;
     }
   }
 };

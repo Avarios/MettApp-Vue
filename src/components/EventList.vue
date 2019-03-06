@@ -1,39 +1,27 @@
 <template>
   <div>
-    <div
-      v-for="(item, index) in events"
-      :key="item.id"
-      class="md-row card_margin"
-    >
-      <md-card
-        :class="getCardCss(index)"
-        md-medium
-      >
+    <div v-for="(item, index) in events" :key="item.id" class="md-row card_margin">
+      <md-card :class="getCardCss(index)" md-medium>
         <md-ripple>
           <md-card-header>
             <div class="md-title">
-              Event at {{ item.date }} <md-icon
-                v-if="canBeDeleted(item)"
-                class="md-accent"
-              >
-                info
-              </md-icon>
+              Event at {{ item.date }}
+              <md-button v-if="canBeDeleted(item)" @click="showSubscriberInfo(item)">
+                <md-icon class="md-accent">info</md-icon>
+              </md-button>
             </div>
-            
-            <div class="md-subhead">
-              Each bun cost {{ bunPrice }} €
-            </div>
+
+            <div class="md-subhead">Each bun cost {{ item.bunPrice }} €</div>
           </md-card-header>
 
           <md-card-content>
             <div v-if="isSubscribed(item)">
-              You are in with {{ getBuns(item) }} buns <br>
-              Total Cost: {{ getBuns(item) * bunPrice }} € <br>
-              mhhh this will be a good day
+              You are in with {{ getBuns(item) }} buns
+              <br>
+              Total Cost: {{ getBuns(item) * bunPrice }} €
+              <br>mhhh this will be a good day
             </div>
-            <div v-if="!isSubscribed(item)">
-              Oops now fast to get some buns ! YUMMY !
-            </div>
+            <div v-if="!isSubscribed(item)">Oops now fast to get some buns ! YUMMY !</div>
           </md-card-content>
 
           <md-card-actions>
@@ -44,23 +32,16 @@
             >
               <md-icon>remove</md-icon>Delete
             </md-button>
-            <md-button
-              v-if="!isSubscribed(item)"
-              @click="openSubscribe(item)"
-            >
+            <md-button v-if="!isSubscribed(item)" @click="openSubscribe(item)">
               <md-icon>check_circle</md-icon>Subscribe
             </md-button>
-            <md-button
-              v-if="isSubscribed(item)"
-              class="md-accent"
-              @click="unscribe(item)"
-            >
+            <md-button v-if="isSubscribed(item)" class="md-accent" @click="unscribe(item)">
               <md-icon>highlight_off</md-icon>Unscribe
             </md-button>
           </md-card-actions>
         </md-ripple>
       </md-card>
-      <md-divider />
+      <md-divider/>
     </div>
     <SubscribeComponent
       :show-dialog="selectedEvent !== undefined"
@@ -77,6 +58,12 @@ export default {
   components: {
     SubscribeComponent
   },
+  props: {
+    onSubscriberInfoClicked: {
+      type: Function,
+      default: undefined
+    }
+  },
   data() {
     return {
       selectedEvent: undefined
@@ -85,17 +72,17 @@ export default {
   computed: {
     events() {
       return this.$store.state.events;
-    },
-    bunPrice() {
-      return this.$store.getters.user.bunPrice;
     }
   },
   methods: {
+    showSubscriberInfo(item){
+      this.onSubscriberInfoClicked(item.subscriber);
+    },
     getCardCss: function(index) {
       return index % 2 === 0 ? "md-primary" : "";
     },
     deleteEvent: function(item) {
-      this.$store.dispatch("deleteEvent", {id: item.id, tenant: item.tenant});
+      this.$store.dispatch("deleteEvent", { id: item.id, tenant: item.tenant });
     },
     canBeDeleted: function(item) {
       return (
@@ -119,10 +106,10 @@ export default {
     },
     getBuns(item) {
       let userId = this.$store.getters.user.mail;
-    
+
       let subData = item.subscriber.find(i => i.uid === userId);
-      if(subData) {
-        return subData.buns
+      if (subData) {
+        return subData.buns;
       }
       return "0";
     },
@@ -136,9 +123,10 @@ export default {
           name: subscribeData.name,
           userId: subscribeData.uid,
           tenant: item.tenant
-        }).then(() => {
-          this.$store.commit('setError','Sorry for you, maybe next time')
         })
+        .then(() => {
+          this.$store.commit("setError", "Sorry for you, maybe next time");
+        });
     }
   }
 };
