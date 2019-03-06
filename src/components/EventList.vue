@@ -18,7 +18,7 @@
             <div v-if="isSubscribed(item)">
               You are in with {{ getBuns(item) }} buns
               <br>
-              Total Cost: {{ getBuns(item) * bunPrice }} €
+              Total Cost: {{ getBuns(item) * item.bunPrice }} €
               <br>mhhh this will be a good day
             </div>
             <div v-if="!isSubscribed(item)">Oops now fast to get some buns ! YUMMY !</div>
