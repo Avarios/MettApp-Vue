@@ -16,7 +16,7 @@
               class="md-icon-button"
               md-menu-trigger
             >
-              <md-avatar>
+              <md-avatar md-accent>
                 <img
                   :src="photo"
                   alt="Avatar"
