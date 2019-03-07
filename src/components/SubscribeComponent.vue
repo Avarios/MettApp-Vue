@@ -79,9 +79,9 @@ export default {
   },
   methods: {
     saveData(withPaypal) {
-      const { name,mail,bunPrice } = this.$store.getters.user;
+      const { name,mail } = this.$store.getters.user;
       if (withPaypal) {
-        window.open(`${this.event.link}/${this.value * bunPrice}`, "_blank");
+        window.open(`${this.event.link}/${this.value * this.event.bunPrice}`, "_blank");
       }
       this.$store.dispatch("subscribe", {
         id: this.event.id,
