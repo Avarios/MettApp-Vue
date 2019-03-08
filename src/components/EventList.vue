@@ -6,7 +6,7 @@
           <md-card-header>
             <div class="md-title">
               Event at {{ item.date }}
-              <md-button v-if="canBeDeleted(item)" @click="showSubscriberInfo(item)">
+              <md-button v-if="isAdmin" @click="showSubscriberInfo(item)">
                 <md-icon class="md-accent">info</md-icon>
               </md-button>
             </div>
@@ -72,6 +72,9 @@ export default {
   computed: {
     events() {
       return this.$store.state.events;
+    },
+    isAdmin() {
+      return this.$store.state.isAdmin;
     }
   },
   methods: {
