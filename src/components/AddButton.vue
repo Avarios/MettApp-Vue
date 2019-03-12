@@ -80,9 +80,11 @@ export default {
         hoster: this.user.name,
         mail:this.user.mail,
         tenant: this.$store.getters.user.tenant,
-        paypal: this.$store.getters.paypalLink,
         bunPrice: this.$store.getters.user.bunPrice
       };
+      if(this.$store.getters.paypalLink) {
+        newEvent.paypal = this.$store.getters.paypalLink
+      }
       this.$store.dispatch('addEvent',newEvent).then(() => {
         this.isSuccess = true;
         this.showDialog = false;
