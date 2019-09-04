@@ -37,9 +37,9 @@ const actions = {
     })
   },
   // eslint-disable-next-line no-unused-vars
-  register({commit}, payload) {
+  register({ commit }, payload) {
     commit('setLoading', true);
-    auth().createUserWithEmailAndPassword(payload.email,payload.password).then(() => {
+    auth().createUserWithEmailAndPassword(payload.email, payload.password).then(() => {
 
     }).catch(err => {
       commit('setLoading', false);
@@ -54,9 +54,7 @@ const actions = {
           paypalLink: payload.paypalLink ? payload.paypalLink : '',
           bunPrice: payload.bunPrice ? payload.bunPrice : 1.0
         }).then(() => {
-          if(payload.tenant !== state.user.tenant) {
-            subscribeToSnapshot(commit,payload.tenant)
-          }
+          subscribeToSnapshot(commit, payload.tenant)
           commit('setUserData', payload);
         })
       } else {
@@ -69,7 +67,7 @@ const actions = {
         if (payload.bunPrice) {
           record.bunPrice = payload.bunPrice;
         }
-        if(!payload.name) {
+        if (!payload.name) {
           record.name = payload.mail;
         }
         db.collection('user').doc(payload.mail).set(record).then(() => {
@@ -99,7 +97,7 @@ const actions = {
         subscriber: subscriber.filter(sub => sub.uid !== userId)
       })
     })
-    
+
   },
   addEvent({ commit }, payload) {
     const { mail, tenant, bunPrice, ...eventData } = payload;
@@ -152,7 +150,7 @@ const actions = {
 
       if (result.exists && result.data().tenant) {
         let { tenant } = result.data();
-        subscribeToSnapshot(commit,tenant)
+        subscribeToSnapshot(commit, tenant)
       }
       commit('setAuthState', user)
     }, () => {
@@ -168,7 +166,7 @@ const actions = {
   }
 }
 
-const subscribeToSnapshot = (commit,tenant) => {
+const subscribeToSnapshot = (commit, tenant) => {
   db.collection('events').doc(tenant).collection('events').onSnapshot(snap => {
     let items = mapEventData(snap.docs, tenant);
     commit('setEventList', items);
