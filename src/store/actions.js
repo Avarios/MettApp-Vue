@@ -46,7 +46,8 @@ const actions = {
       commit('setError', err);
     })
   },
-  setUserData({ commit, state }, payload) {
+  setUserData({ commit }, payload) {
+    commit('setLoading',true);
     db.collection('user').doc(payload.mail).get().then(result => {
       if (result.exists) {
         db.collection('user').doc(payload.mail).update({
@@ -56,6 +57,7 @@ const actions = {
         }).then(() => {
           subscribeToSnapshot(commit, payload.tenant)
           commit('setUserData', payload);
+          commit('setLoading',false);
         })
       } else {
         let record = {
@@ -72,6 +74,7 @@ const actions = {
         }
         db.collection('user').doc(payload.mail).set(record).then(() => {
           commit('setUserData', payload);
+          commit('setLoading',false);
         })
       }
     });
@@ -100,6 +103,7 @@ const actions = {
 
   },
   addEvent({ commit }, payload) {
+    commit('setLoading',true);
     const { mail, tenant, bunPrice, ...eventData } = payload;
     let newEvent = {
       ...eventData,
@@ -108,15 +112,21 @@ const actions = {
     };
     db.collection('events').doc(tenant).collection('events').add(newEvent).then(() => {
       commit('addEvent', payload);
-    });
+    }).finally(() =>{
+      commit('setLoading',false);
+    } );
 
   },
   // eslint-disable-next-line no-unused-vars
   deleteEvent({ commit }, payload) {
     let { id, tenant } = payload;
-    db.collection('events').doc(tenant).collection('events').doc(id).delete();
+    commit('setLoading',true);
+    db.collection('events').doc(tenant).collection('events').doc(id).delete().finally(() => {
+      commit('setLoading',false);
+    });
   },
   firebaseInit({ commit }, payload) {
+    commit('setLoading',true);
     let mail = payload.email;
     db.collection('tenants').get().then(results => {
       let tenants = results.docs.map(item => {
@@ -153,6 +163,7 @@ const actions = {
         subscribeToSnapshot(commit, tenant)
       }
       commit('setAuthState', user)
+      commit('setLoading',false);
     }, () => {
       //TODO: ERROR
     });
