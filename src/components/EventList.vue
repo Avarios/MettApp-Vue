@@ -28,7 +28,7 @@
             <md-button
               v-if="canBeDeleted(item)"
               class="md-accent md-raised"
-              @click="deleteEvent(item)"
+              @click="itemToDelete = item"
             >
               <md-icon>remove</md-icon>Delete
             </md-button>
@@ -48,6 +48,14 @@
       :event="selectedEvent"
       :on-cancel="closeSubscribe"
     />
+    <md-dialog :md-active="itemToDelete !== undefined">
+      <md-dialog-title>Do you really want to delete the Event at {{ itemToDelete ? itemToDelete.date : "" }} ?</md-dialog-title>
+      
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="deleteEvent(itemToDelete)">Delete</md-button>
+        <md-button class="md-accent" @click="itemToDelete = undefined">Cancel</md-button>
+      </md-dialog-actions>
+    </md-dialog>
   </div>
 </template>
 
@@ -66,7 +74,8 @@ export default {
   },
   data() {
     return {
-      selectedEvent: undefined
+      selectedEvent: undefined,
+      itemToDelete:undefined
     };
   },
   computed: {
@@ -85,6 +94,7 @@ export default {
       return index % 2 === 0 ? "md-primary" : "";
     },
     deleteEvent: function(item) {
+      this.itemToDelete = undefined;
       this.$store.dispatch("deleteEvent", { id: item.id, tenant: item.tenant });
     },
     canBeDeleted: function(item) {
