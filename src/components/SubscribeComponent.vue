@@ -1,7 +1,7 @@
 <template>
   <div>
     <md-dialog :md-active="showDialog">
-      <md-dialog-title>How Much Buns do you need ?</md-dialog-title>
+      <md-dialog-title>How many Buns do you need ?</md-dialog-title>
       <md-dialog-content>
         <md-divider />
         <div class="md-layout-item">
